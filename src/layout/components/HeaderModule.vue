@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2020-05-14 16:27:38
- * @LastEditTime: 2020-05-19 10:59:55
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \git_Enxlsx\src\layout\components\HeaderModule.vue
---> 
 <template>    
     <div class="adminmaintop container">
         <p class="adminmaintoplogo"><span><img src="../../assets/images/logo.png" alt=""></span>长尾词素材</p>

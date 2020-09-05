@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const open = require('opn');//打开浏览器
 const chalk = require('chalk');// 改变命令行中输出日志颜色插件
 const ip = require('ip').address();
-const CleanWebpackPlugin = require('clean-webpack-plugin'); // 清除生成文件
+//const CleanWebpackPlugin = require('clean-webpack-plugin'); // 清除生成文件
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const notifier = require('node-notifier');// 友好的终端错误显示方式
 const { VueLoaderPlugin } = require('vue-loader');
@@ -249,7 +249,7 @@ module.exports = {
     // 插件配置项
     plugins: [ 
         new webpack.HotModuleReplacementPlugin(),
-        new CleanWebpackPlugin(),
+        //new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             filename: 'index.html',//输出文件的名称
             template: path.resolve(__dirname, 'index.html'),//模板文件的路径

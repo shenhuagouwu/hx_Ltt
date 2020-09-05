@@ -24,7 +24,12 @@ const routes = [
                 path: '/default',
                 component: () => import('@/views/default/index'),
                 name: 'defaultPage'
-            }
+            },
+            {
+                path: '/admin',
+                component: () => import('@/views/admin/index'),
+                name: 'adminPage'
+            },
         ]
     }
 ];

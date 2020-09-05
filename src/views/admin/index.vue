@@ -1,173 +1,74 @@
 <template>
-    <el-container>
-        <el-header>
-            <div class="class_nav container">
-                  <div class="class_navitem clearfix">
-                      <el-select 
-                      v-model="Moduletype" clearable filterable @change="handelModuletype" placeholder="请选择模块类型">
-                        <el-option
-                          v-for="item in classData[0].children"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
-                        </el-option>
-                      </el-select>
-                  </div>
-                  <div class="class_navitem clearfix" >                
-                      <el-select v-model="ApplyPage" clearable filterable @change="handelApplyPage" placeholder="请选择适用页面">
-                        <el-option
-                          v-for="item in classData[1].children"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
-                        </el-option>
-                      </el-select>
-                  </div>
-                  <div class="class_navitem clearfix" >                
-                      <el-select v-model="EffeWidth" clearable filterable @change="handelEffeWidth" placeholder="请选择有效宽度">
-                        <el-option
-                          v-for="item in classData[2].children"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
-                        </el-option>
-                      </el-select>
-                  </div>
-                  <div class="class_navitem clearfix" >                
-                      <el-select v-model="author" clearable filterable @change="handelauthor" placeholder="请选择添加人">
-                        <el-option
-                          v-for="item in classData[3].children"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
-                        </el-option>
-                      </el-select>
-                  </div>
-                  <div class="class_navitem clearfix" >                
-                      <el-select v-model="TypeOrder" clearable filterable @change="handelTypeOrder" placeholder="请选择排版顺序">
-                        <el-option
-                          v-for="item in classData[4].children"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
-                        </el-option>
-                      </el-select>
-                  </div>
-                  <div class="class_navitem clearfix" >
-                      <el-button type="primary" @click="handelTypebtn">点击上传</el-button>
-                  </div>
-            </div>
-        </el-header>
-        <el-main>
-            <div class="Ltt_list">
-                <vue-waterfall-easy :imgsArr="imgsArr" @scrollReachBottom="getData"
-                            :gap="20"
-                            :loadingDotCount='0'
-                            :maxCols='5'
-                            :imgWidth='305'
-                            :timeOut="500">
-                    <div class="img-info" slot-scope="props">
-                        <a class="some-info-down" target="_blank" :href="props.value.file"><i class="el-icon-download"></i>下载</a>
-                        <p class="some-info-name">{{props.value.ApplyPage}}</p>
-                        <p class="some-info-icon">
-                          <span class="el-icon-s-marketing"><i>{{props.value.ModuleType}}</i></span>
-                          <span class="el-icon-s-platform"><i>{{props.value.EffWidth}}</i></span>
-                          <span class="el-icon-s-custom"><i>{{props.value.Author}}</i></span>
-                        </p>
-                    </div>
-                </vue-waterfall-easy>
-            </div>
-        </el-main>    
-        <div class="ModelPopup" v-if="showAbs">
-            <p class="ModelPopupTit"><strong>{{type=='add'?'添加':'编辑'}}信息</strong><span @click="handleClose" class="close el-icon-close"></span></p>
-            <div class="ModelPopupBox">
-                  <ul class="ModelPopupBoxmain">
-                    <li>
-                      <el-select 
-                      v-model="Moduletype" clearable filterable placeholder="请选择模块类型">
-                        <el-option
-                          v-for="item in classData[0].children"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
-                        </el-option>
-                      </el-select>
-                    </li>
-                    <li>
-                      <el-select v-model="ApplyPage" clearable filterable placeholder="请选择适用页面">
-                        <el-option
-                          v-for="item in classData[1].children"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
-                        </el-option>
-                      </el-select>
-                    </li>
-                    <li>
-                      <el-select v-model="EffeWidth" clearable filterable placeholder="请选择有效宽度">
-                        <el-option
-                          v-for="item in classData[2].children"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
-                        </el-option>
-                      </el-select>
-                    </li>
-                    <li>
-                      <el-select v-model="author" clearable filterable placeholder="请选择添加人">
-                        <el-option
-                          v-for="item in classData[3].children"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
-                        </el-option>
-                      </el-select>
-                    </li>
-                    <li>
-                      <el-select v-model="TypeOrder" clearable filterable placeholder="请选择排版顺序">
-                        <el-option
-                          v-for="item in classData[4].children"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
-                        </el-option>
-                      </el-select>
-                    </li>
-                    <li>
-                      <el-upload
-                        class="upload-demo"
-                        list-type="picture"
-                        action=""                  
-                        accept="image/jpeg,image/jpeg,image/png,image/gif">
-                        <el-button type="primary">上传缩略图</el-button>
-                      </el-upload>
-                    </li>
-                    <li>
-                      <el-upload
-                        class="upload-demo"
-                        action=""                  
-                        accept="aplication/zip">
-                        <el-button type="primary">上传压缩包</el-button>
-                      </el-upload>
-                    </li>
-                  </ul>
-                  <p class="ModelPopupBoxbom">
-                    <span @click="handleClose">取消</span>
-                    <span @click="handleSaveClick">确定</span>
-                  </p>
-            </div>
+  <el-container>
+    <el-header>
+        <div class="class_nav container">
+              <div class="class_navitem clearfix">                
+                  <el-select 
+                  v-model="Moduletype" clearable filterable @change="handelModuletype" placeholder="请选择模块类型">
+                    <el-option
+                      v-for="item in classData[0].children"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+              </div>
+              <div class="class_navitem clearfix" >                
+                  <el-select v-model="ApplyPage" clearable filterable @change="handelApplyPage" placeholder="请选择适用页面">
+                    <el-option
+                      v-for="item in classData[1].children"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+              </div>
+              <div class="class_navitem clearfix" >                
+                  <el-select v-model="EffeWidth" clearable filterable @change="handelEffeWidth" placeholder="请选择有效宽度">
+                    <el-option
+                      v-for="item in classData[2].children"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+              </div>
+              <div class="class_navitem clearfix" >                
+                  <el-select v-model="author" clearable filterable @change="handelauthor" placeholder="请选择添加人">
+                    <el-option
+                      v-for="item in classData[3].children"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+              </div>
+              <div class="class_navitem clearfix" >                
+                  <el-select v-model="TypeOrder" clearable filterable @change="handelTypeOrder" placeholder="请选择排版顺序">
+                    <el-option
+                      v-for="item in classData[4].children"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+              </div>
+              <div class="class_navitem clearfix" >
+                  <el-button type="primary">点击上传</el-button>
+              </div>
         </div>
-        <p class="mask" v-if="showAbs"></p>
-    </el-container>
+    </el-header>
+    <el-main>
+    <div class="Ltt_list">
+    </div>
+    </el-main>
+  </el-container>
 </template>
 <script>
-import TemJson from "static/js/temModule";
-import vueWaterfallEasy from 'vue-waterfall-easy';
 export default {
     name: 'defaultPage',
     data() {
       return {
-        showAbs:false,
         imgsArr: [],
         group: 0,
         initDatalist:[],
@@ -581,18 +482,6 @@ export default {
       See:function(e){
         window.open(e, '_blank');
       },
-      handelTypebtn:function(){
-        var $this=this;
-        $this.showAbs=!$this.showAbs;
-      },
-      handleSaveClick:function(){
-          var $this=this;
-          $this.showAbs=!$this.showAbs;
-      },
-      handleClose:function(){
-        var $this=this;
-        $this.showAbs=!$this.showAbs;
-      },
 
     }
 }
@@ -716,103 +605,5 @@ export default {
       }
     }
   }
-}
-.vue-waterfall-easy-container .vue-waterfall-easy a.img-inner-box[data-v-ded6b974]{box-shadow: none; border-radius:0px;}
-
-.ModelPopup {
-    position: absolute;
-    z-index: 2;
-    width: 800px;
-    height:640px;
-    left: 50%;
-    top: 50%;
-    margin-top: -320px;
-    margin-left: -400px;
-    border: 1px solid #e4e6ea;
-    background: #fff;
-    border-radius:10px;
-    overflow: hidden;
-    .ModelPopupTit {
-        clear: both;
-        display: block;
-        text-align: left;
-        border-bottom: 1px solid #eee;
-        overflow: hidden;
-        background: #f5f5f5;
-        padding-left:30px;
-        strong {
-          float: left;
-          font-size:18px;
-          line-height: 40px;
-          color: #333;
-        }
-        span {
-          float: right;
-          width: 40px;
-          height: 40px;
-          font-size: 20px;
-          line-height: 40px;
-          margin-right:10px;
-          display: inline-block;
-          text-align: center;
-          color: #333;
-          font-weight: bold;
-          cursor: pointer;
-          &:hover{
-            color: #f00;
-          }
-        }
-    }
-    .ModelPopupBox {
-        clear: both;
-        padding:30px;
-        .ModelPopupBoxmain {
-          overflow: hidden;
-          li{
-            padding:10px;
-            text-align: left;
-            .el-select{width: 100%!important;}
-            /deep/ .el-date-editor.el-input{width: 100%!important;}
-            &.Infotopdd{
-                width:250px;
-              /deep/ .el-date-editor--monthrange.el-input__inner{width: 100%!important;}
-              /deep/ .el-date-editor .el-range-separator{width:auto!important;}
-            }
-          }
-        }
-        .ModelPopupBoxbom {
-          clear: both;
-          display: block;
-          text-align: center;
-          margin: 30px auto 0px;
-          span{
-            &:first-child{
-              background: #f5f5f5;
-              color: #333;
-            }
-            background: #803af2;
-            color: #fff;
-            line-height: 30px;
-            border-radius: 3px;
-            cursor: pointer;
-            padding:3px 30px;
-            margin: 0px 10px;
-            display: inline-block;
-            &:hover{
-              background: #0277d5;
-              color: #fff;
-            }
-          }
-        }
-    }
-}
-.mask{
-  position: absolute;
-  background: rgba(0,0,0,0.5);
-  left:0px;
-  bottom:0px;
-  right:0px;
-  top:0px;
-  transition: all 0.5s;
 }
 </style>
